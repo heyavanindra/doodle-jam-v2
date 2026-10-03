@@ -1,0 +1,28 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "description": "Background job worker for Doodle Jam",
+  "main": "dist/index.cjs",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --platform=node --bundle --out-extension:.js=.cjs --external:pino --outdir=dist",
+    "dev": "dotenvx run -f .env.development -- tsx watch src/index.ts",
+    "start": "dotenvx run -f .env -- node dist/index.cjs",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/env":"workspace:*",
+    "@dotenvx/dotenvx": "^2.22.0",
+    "@repo/logger": "workspace:*",
+    "@repo/redis": "workspace:*",
+    "bullmq": "^6.3.4",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "catalog:tooling",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.13",
+    "typescript": "catalog:tooling"
+  }
+}

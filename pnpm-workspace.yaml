@@ -1,0 +1,11 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+allowBuilds:
+  esbuild: true
+  msgpackr-extract: true
+
+catalogs:
+  tooling:
+    typescript: ^6.0.3
+    '@types/node': ^26.4.1

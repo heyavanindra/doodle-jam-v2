@@ -1,0 +1,67 @@
+# Base stage with Node and pnpm
+FROM node:24-alpine AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+WORKDIR /app
+
+# -------------------------
+# Stage 1: Prune with Turbo
+# -------------------------
+FROM base AS pruner
+
+RUN apk update && apk add --no-cache libc6-compat
+WORKDIR /app
+
+COPY . .
+RUN npx turbo@^2.10.12 prune api --docker
+
+# -------------------------
+# Stage 2: Install & Build
+# -------------------------
+FROM base AS builder
+
+RUN apk update && apk add --no-cache libc6-compat
+WORKDIR /app
+
+# First install dependencies using pruned lockfile
+COPY --from=pruner /app/out/json/ .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+    pnpm install --frozen-lockfile
+
+# Copy pruned source files and build
+COPY --from=pruner /app/out/full/ .
+RUN pnpm turbo run build --filter=api
+
+# -------------------------
+# Stage 3: Production Runner
+# -------------------------
+FROM base AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Run as non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 expressjs
+
+USER expressjs
+
+# Copy root node_modules containing the .pnpm virtual store
+COPY --from=builder --chown=expressjs:nodejs /app/node_modules ./node_modules
+
+# Copy apps/api workspace including its dist and node_modules
+COPY --from=builder --chown=expressjs:nodejs /app/apps/api ./apps/api
+
+WORKDIR /app/apps/api
+
+EXPOSE 4000
+
+CMD ["node", "dist/index.cjs"]

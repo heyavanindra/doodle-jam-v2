@@ -1,0 +1,23 @@
+{
+  "name": "@repo/jobs",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "bullmq": "^6.3.4"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "ioredis": "^6.0.0",
+    "typescript": "catalog:tooling"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}

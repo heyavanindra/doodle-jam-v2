@@ -1,0 +1,33 @@
+{
+  "name": "@repo/db",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "exports": {
+    "./client": "./src/client.ts",
+    "./schema": "./src/index.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "db:push": "dotenvx run -f .env.development -- drizzle-kit push",
+    "db:studio": "dotenvx run -f .env.development -- drizzle-kit studio --port 3005",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "drizzle-orm": "1.0.0-rc.4",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^2.22.0",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "catalog:tooling",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "1.0.0-rc.4",
+    "typescript": "catalog:tooling"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
