@@ -3,7 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 import { sendSuccess } from '../helper/response-helper.js';
 import RoomService from '../services/room.service.js';
 import type { RoomCreateInput, RoomIdParamInput } from '@repo/validator';
-import { NewRoom } from '@repo/db/schema';
 
 export const createRoom = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -18,7 +17,7 @@ export const createRoom = async (req: Request, res: Response, next: NextFunction
     );
     req.log?.info({ roomId: createdRoom.id }, 'Room created successfully');
 
-    return sendSuccess<NewRoom>(res, createdRoom, StatusCodes.CREATED);
+    return sendSuccess(res, createdRoom, StatusCodes.CREATED);
   } catch (error) {
     next(error);
   }

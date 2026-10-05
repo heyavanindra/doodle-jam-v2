@@ -8,11 +8,7 @@ export class ApiError extends Error {
     public status: number,
     public response: ApiErrorResponse | null,
   ) {
-    const message =
-      response?.error?.message ??
-      (response as unknown as { message?: string })?.message ??
-      'Something went wrong';
-    super(message);
+    super(response?.error?.message ?? 'Something went wrong');
     this.name = 'ApiError';
   }
 }
@@ -27,7 +23,6 @@ export class APIClient {
         'Content-Type': 'application/json',
         ...options.headers,
       },
-      credentials: 'include',
     });
 
     const body = await response.json();

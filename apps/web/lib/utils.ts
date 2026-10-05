@@ -1,1 +1,1 @@
-export { cn } from '@repo/ui';
+export { cn } from 'cn';

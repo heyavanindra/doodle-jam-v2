@@ -9,10 +9,12 @@ export function createWebEnv(runtimeEnv: Record<string, string | undefined> = pr
     client: {
       NEXT_PUBLIC_API_URL: webClientEnv.shape.NEXT_PUBLIC_API_URL,
       NEXT_PUBLIC_WEB_URL: webClientEnv.shape.NEXT_PUBLIC_WEB_URL,
+      NEXT_PUBLIC_WS_URL: webClientEnv.shape.NEXT_PUBLIC_WS_URL,
     },
     experimental__runtimeEnv: {
       NEXT_PUBLIC_API_URL: runtimeEnv.NEXT_PUBLIC_API_URL,
       NEXT_PUBLIC_WEB_URL: runtimeEnv.NEXT_PUBLIC_WEB_URL,
+      NEXT_PUBLIC_WS_URL: runtimeEnv.NEXT_PUBLIC_WS_URL,
     },
     emptyStringAsUndefined: true,
   });

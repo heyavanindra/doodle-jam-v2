@@ -35,6 +35,12 @@ export const appEnv = z.object({
 export const webClientEnv = z.object({
   NEXT_PUBLIC_API_URL: z.url().default('http://localhost:4000'),
   NEXT_PUBLIC_WEB_URL: z.url().default('http://localhost:3000'),
+  NEXT_PUBLIC_WS_URL: z.url().default('http://localhost:8080'),
+});
+
+export const websocketEnv = z.object({
+  url: z.url().default('http://localhost:8080'),
+  port: z.coerce.number().int().positive().max(65535).default(8080),
 });
 
 export function parseEnv<T extends z.ZodType>(schema: T, label: string): z.infer<T> {

@@ -28,9 +28,7 @@ export const renderVerifyEmailHtml = async (
   return await renderReactToHtml(createElement(VerifyEmail, props), options);
 };
 
-export const renderVerifyEmailPlainText = async (
-  props: VerifyEmailProps,
-): Promise<string> => {
+export const renderVerifyEmailPlainText = async (props: VerifyEmailProps): Promise<string> => {
   return await renderReactToPlainText(createElement(VerifyEmail, props));
 };
 

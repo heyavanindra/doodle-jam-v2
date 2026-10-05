@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Body,
   Button,
@@ -14,7 +14,7 @@ import {
   Section,
   Text,
   Tailwind,
-} from "react-email";
+} from 'react-email';
 
 export interface VerifyEmailProps {
   url: string;
@@ -30,15 +30,14 @@ const mono =
 // translucent borders, and soft shadows. Shadows are progressive enhancement:
 // clients that strip them still get the layering.
 const cardShadow = {
-  boxShadow:
-    "0 1px 2px rgba(10,10,20,0.05), 0 16px 40px -12px rgba(10,10,20,0.12)",
+  boxShadow: '0 1px 2px rgba(10,10,20,0.05), 0 16px 40px -12px rgba(10,10,20,0.12)',
 };
 const buttonShadow = {
   boxShadow:
-    "0 1px 2px rgba(0,0,0,0.30), 0 4px 12px -2px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.18)",
+    '0 1px 2px rgba(0,0,0,0.30), 0 4px 12px -2px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.18)',
 };
 const markShadow = {
-  boxShadow: "0 1px 2px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.22)",
+  boxShadow: '0 1px 2px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.22)',
   width: 28,
   height: 28,
 };
@@ -82,13 +81,13 @@ export default function VerifyEmail({ url, name }: VerifyEmailProps) {
                             className="rounded-lg bg-[#0a0a0a] text-center dark:bg-white"
                             style={markShadow}
                           >
-                            <Text className="m-0 text-[14px] font-bold leading-7 text-white dark:text-black">
+                            <Text className="m-0 text-[14px] leading-7 font-bold text-white dark:text-black">
                               ✎
                             </Text>
                           </div>
                         </Column>
                         <Column className="pl-[10px] align-middle">
-                          <Text className="m-0 text-[15px] font-semibold leading-7 tracking-[-0.01em] text-[#0a0a0a] dark:text-white">
+                          <Text className="m-0 text-[15px] leading-7 font-semibold tracking-[-0.01em] text-[#0a0a0a] dark:text-white">
                             Doodle Jam
                           </Text>
                         </Column>
@@ -98,28 +97,27 @@ export default function VerifyEmail({ url, name }: VerifyEmailProps) {
                     <Hr className="m-0 border-0 border-t border-solid border-[rgba(10,10,20,0.06)] dark:border-[rgba(255,255,255,0.07)]" />
 
                     {/* Content */}
-                    <Section className="px-8 pb-9 pt-10">
+                    <Section className="px-8 pt-10 pb-9">
                       <Heading
                         as="h1"
-                        className="m-0 text-[24px] font-semibold leading-[30px] tracking-[-0.035em] text-[#0a0a0a] dark:text-white"
+                        className="m-0 text-[24px] leading-[30px] font-semibold tracking-[-0.035em] text-[#0a0a0a] dark:text-white"
                       >
                         Verify your email address
                       </Heading>
 
-                      <Text className="mb-0 mt-5 text-[15px] font-medium leading-6 text-[#18181b] dark:text-[#ededed]">
-                        {name ? `Hi ${name},` : "Hello,"}
+                      <Text className="mt-5 mb-0 text-[15px] leading-6 font-medium text-[#18181b] dark:text-[#ededed]">
+                        {name ? `Hi ${name},` : 'Hello,'}
                       </Text>
 
-                      <Text className="mb-0 mt-2 text-[15px] leading-[24px] text-[#63636e] dark:text-[#a1a1a8]">
-                        Thanks for signing up for Doodle Jam. Confirm your email
-                        address to finish setting up your account and start
-                        drawing.
+                      <Text className="mt-2 mb-0 text-[15px] leading-[24px] text-[#63636e] dark:text-[#a1a1a8]">
+                        Thanks for signing up for Doodle Jam. Confirm your email address to finish
+                        setting up your account and start drawing.
                       </Text>
 
                       <Section className="mt-8">
                         <Button
                           href={url}
-                          className="box-border rounded-[10px] border border-solid border-[#0a0a0a] bg-[#0a0a0a] px-6 py-[13px] text-[14px] font-medium leading-5 text-white no-underline dark:border-white dark:bg-white dark:text-black"
+                          className="box-border rounded-[10px] border border-solid border-[#0a0a0a] bg-[#0a0a0a] px-6 py-[13px] text-[14px] leading-5 font-medium text-white no-underline dark:border-white dark:bg-white dark:text-black"
                           style={buttonShadow}
                         >
                           Verify email
@@ -133,7 +131,7 @@ export default function VerifyEmail({ url, name }: VerifyEmailProps) {
                         </Text>
                         <Link
                           href={url}
-                          className="mt-[6px] block break-all text-[12px] leading-[18px] text-[#52525b] underline dark:text-[#a1a1a8]"
+                          className="mt-[6px] block text-[12px] leading-[18px] break-all text-[#52525b] underline dark:text-[#a1a1a8]"
                           style={{ fontFamily: mono }}
                         >
                           {url}
@@ -146,8 +144,7 @@ export default function VerifyEmail({ url, name }: VerifyEmailProps) {
                     {/* Footer band */}
                     <Section className="bg-[#f9f9fb] px-8 py-5 dark:bg-[#101012]">
                       <Text className="m-0 text-[12px] leading-[18px] text-[#8b8b95]">
-                        If you didn&apos;t create this account, you can safely
-                        ignore this email.
+                        If you didn&apos;t create this account, you can safely ignore this email.
                       </Text>
                     </Section>
                   </Section>
@@ -174,6 +171,6 @@ export default function VerifyEmail({ url, name }: VerifyEmailProps) {
 }
 
 VerifyEmail.PreviewProps = {
-  url: "https://doodlejam.app/verify?token=8f3a1c9e2b7d4f60a1c5e8d9b2347f10",
-  name: "Avi",
+  url: 'https://doodlejam.app/verify?token=8f3a1c9e2b7d4f60a1c5e8d9b2347f10',
+  name: 'Avi',
 } satisfies VerifyEmailProps;

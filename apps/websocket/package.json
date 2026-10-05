@@ -1,0 +1,31 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "dotenvx run -f .env.development -- tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "dotenvx run -- node dist/server.js",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@dotenvx/dotenvx": "^2.22.0",
+    "@repo/env": "workspace:*",
+    "@repo/logger": "workspace:*",
+    "@repo/redis": "workspace:*",
+    "@types/ws": "^8.18.2",
+    "jose": "^6.2.12",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "catalog:tooling",
+    "tsx": "^4.23.13",
+    "typescript": "catalog:tooling"
+  }
+}

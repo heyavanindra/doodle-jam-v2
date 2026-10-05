@@ -19,11 +19,12 @@
     "husky": "^9.1.7",
     "postcss": "^8.5.28",
     "prettier": "3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.3",
     "turbo": "^2.10.12",
     "typescript": "catalog:tooling"
   },
-  "packageManager": "pnpm@11.25.0",
+  "packageManager": "pnpm@12.9.1",
   "engines": {
     "node": ">=24"
   }
