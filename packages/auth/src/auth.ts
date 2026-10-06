@@ -45,6 +45,8 @@ export function createAuth({ db, secret, baseURL, trustedOrigins, sendEmail }: C
     }),
     emailAndPassword: {
       enabled: true,
+      requireEmailVerification: true,
+      autoSignIn: false,
     },
   });
 }
