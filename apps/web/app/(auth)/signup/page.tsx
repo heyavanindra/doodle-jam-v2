@@ -63,7 +63,7 @@ export default function SignUpPage() {
           name: value.name,
           email: value.email,
           password: value.password,
-          callbackURL: `${env.NEXT_PUBLIC_WEB_URL}/dashboard`
+          callbackURL: `${env.NEXT_PUBLIC_WEB_URL}/dashboard`,
         });
 
         if (res.error) {
@@ -82,7 +82,7 @@ export default function SignUpPage() {
         error: (err: any) => err?.message || 'Could not create account.',
       });
 
-      await signUpPromise.catch(() => { });
+      await signUpPromise.catch(() => {});
     },
   });
 
@@ -102,13 +102,7 @@ export default function SignUpPage() {
       </div>
 
       <PatternBorder className="w-full max-w-sm rounded-2xl sm:max-w-md">
-        <Card
-          className={
-            'bg-card relative w-full gap-6 rounded-xl py-8'
-          }
-        >
-
-
+        <Card className={'bg-card relative w-full gap-6 rounded-xl py-8'}>
           <CardHeader className="flex flex-col items-center justify-center gap-1.5 px-8 text-center">
             <div className="from-primary to-primary/80 text-primary-foreground shadow-primary/25 ring-primary/40 mx-auto mb-3 flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-b shadow-lg ring-1 inset-shadow-xs inset-shadow-white/25">
               <Layers className="size-5" />

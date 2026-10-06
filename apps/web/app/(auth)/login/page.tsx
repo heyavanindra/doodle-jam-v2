@@ -47,7 +47,6 @@ export default function LoginPage() {
   const router = useTransitionRouter();
   const [showPassword, setShowPassword] = React.useState(false);
 
-
   const form = useForm({
     defaultValues: {
       email: '',
@@ -64,9 +63,7 @@ export default function LoginPage() {
         });
 
         if (res.error) {
-          throw new Error(
-            res.error.message || 'Failed to sign in. Please check your credentials.',
-          );
+          throw new Error(res.error.message || 'Failed to sign in. Please check your credentials.');
         }
 
         return res.data;
@@ -84,7 +81,6 @@ export default function LoginPage() {
       await signInPromise.catch(() => {});
     },
   });
-
 
   return (
     <div className="bg-background relative isolate flex min-h-screen w-full items-center justify-center overflow-hidden p-4">
@@ -107,9 +103,7 @@ export default function LoginPage() {
             <div className="from-primary to-primary/80 text-primary-foreground shadow-primary/25 ring-primary/40 mx-auto mb-3 flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-b shadow-lg ring-1 inset-shadow-xs inset-shadow-white/25">
               <Layers className="size-5" />
             </div>
-            <CardTitle className="text-2xl font-semibold tracking-tight">
-              Welcome back
-            </CardTitle>
+            <CardTitle className="text-2xl font-semibold tracking-tight">Welcome back</CardTitle>
             <CardDescription className="text-balance">
               Enter your credentials to sign in to your account
             </CardDescription>
@@ -219,9 +213,7 @@ export default function LoginPage() {
                   {isSubmitting ? 'Signing in…' : 'Sign in'}
                 </Button>
               )}
-
             </form.Subscribe>
-
 
             <p className="text-muted-foreground text-center text-sm">
               Don't have an account?{' '}
