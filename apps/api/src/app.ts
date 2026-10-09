@@ -14,6 +14,8 @@ import { configs } from './configs/configs.js';
 
 const app: Express = express();
 
+app.all('/api/auth/*splat', toNodeHandler(auth));
+
 app.use(
   cors({
     origin: [configs.FRONTEND_URL],
@@ -26,8 +28,6 @@ app.use(
 app.use(helmet());
 app.use(limiter);
 app.use(httpLogger);
-
-app.all('/api/auth/*splat', toNodeHandler(auth));
 
 app.use(
   express.json({

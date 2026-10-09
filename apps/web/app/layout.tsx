@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: 'Doodle Jam — Realtime Collaborative Canvas & Drawing',
   description:
     'An infinite collaborative canvas powered by WebSockets and CRDTs. Sketch architecture diagrams, wireframes, and ideas together with sub-15ms sync.',
+  icons: {
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+  },
 };
 
 export default function RootLayout({

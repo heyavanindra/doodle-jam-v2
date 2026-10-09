@@ -3,16 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./room": "./src/room.validation.ts",
+    "./auth": "./src/auth.validation.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "zod": "^4.5.4"
   },
