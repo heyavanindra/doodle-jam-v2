@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description:
     'An infinite collaborative canvas powered by WebSockets and CRDTs. Sketch architecture diagrams, wireframes, and ideas together with sub-15ms sync.',
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    icon: '/favicon.ico',
   },
 };
 

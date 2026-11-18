@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Button } from '@repo/ui/components/button';
 import { Link } from 'next-view-transitions';
 
@@ -9,7 +10,15 @@ export function Navbar() {
     <header className="bg-background/95 sticky top-0 z-40 w-full border-b-2 border-black px-4 backdrop-blur-xs sm:px-8">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/" className="group flex items-center gap-2">
+        <Link href="/" className="group flex items-center gap-2.5">
+          <Image
+            src="/doodlejam-icon.svg"
+            alt="DoodleJam"
+            width={32}
+            height={32}
+            className="size-8 transition-transform group-hover:scale-105"
+            priority
+          />
           <span className="text-xl font-black tracking-tight text-neutral-900">DoodleJam</span>
         </Link>
 

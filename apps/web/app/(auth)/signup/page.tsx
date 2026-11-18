@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Button } from '@repo/ui/components/button';
 import {
   Card,
@@ -134,8 +135,15 @@ export default function SignUpPage() {
             /* Sign Up Form */
             <>
               <CardHeader className="p-0 text-center">
-                <div className="bg-main mx-auto mb-3 flex size-11 items-center justify-center rounded-xl border-2 border-black text-xl font-black shadow-[3px_3px_0px_0px_#000]">
-                  ✏️
+                <div className="mx-auto mb-3 flex justify-center">
+                  <Image
+                    src="/doodlejam-icon.svg"
+                    alt="DoodleJam"
+                    width={48}
+                    height={48}
+                    className="size-12"
+                    priority
+                  />
                 </div>
                 <CardTitle className="text-2xl font-black tracking-tight text-neutral-900 sm:text-3xl">
                   Create an account
