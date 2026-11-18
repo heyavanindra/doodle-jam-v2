@@ -442,6 +442,9 @@ importers:
       cn:
         specifier: ^0.4.0
         version: 0.4.0
+      goeist:
+        specifier: ^0.1.0
+        version: 0.1.0(next@16.3.4(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.4.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.51.0))
       lucide-react:
         specifier: ^1.49.0
         version: 1.49.0(@types/react@19.2.18)(react@19.2.8)
@@ -4590,6 +4593,14 @@ packages:
   globals@17.12.0:
     resolution: {integrity: sha512-cezEd/DTyyht9cvSSURyygXPfy04GtWO/5e6ZPvH7fCtjKz9PYOmuawphw1Ctd1f6C+5JypXfGD7ahNMXvevBA==}
     engines: {node: '>=18'}
+
+  goeist@0.1.0:
+    resolution: {integrity: sha512-0evWAu8boaJJK3VPRY1KCllMaRZqNi9pwclaK8rsogTP9TC/5fnWtzPa6TqgiuuNjsF++3utARpXbwxTi11K0g==}
+    peerDependencies:
+      next: '>=13.2.0'
+    peerDependenciesMeta:
+      next:
+        optional: true
 
   goober@2.1.19:
     resolution: {integrity: sha512-U7veizMqxyKlM58+Z5j2ngJBH/r9siDmxpvNxSw0PylF6WQvrASJEZrxh1hidRBJc2jqoBVSyOban5u8m+6Rxg==}
@@ -9686,6 +9697,10 @@ snapshots:
       path-scurry: 2.0.2
 
   globals@17.12.0: {}
+
+  goeist@0.1.0(next@16.3.4(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.4.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.51.0)):
+    optionalDependencies:
+      next: 16.3.4(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.4.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.51.0)
 
   goober@2.1.19(csstype@3.2.3):
     dependencies:

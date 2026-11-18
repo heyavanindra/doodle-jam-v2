@@ -29,6 +29,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cn": "^0.4.0",
+    "goeist": "^0.1.0",
     "lucide-react": "^1.49.0",
     "motion": "^13.4.6",
     "next": "16.3.4",

@@ -1,17 +1,9 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { GoeistSans } from 'goeist/font/sans';
 import './globals.css';
 import { ViewTransitions } from 'next-view-transitions';
 import ReactQueryProvider from '@/utils/query/query-provider';
 import { Toaster } from '@repo/ui/components/toast';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-
-const geistMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Doodle Jam — Realtime Collaborative Canvas & Drawing',
@@ -31,7 +23,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html lang="en" data-scroll-behavior="smooth">
         <body
-          className={`${inter.className} ${geistMono.variable} ${inter.variable} min-h-screen antialiased`}
+          className={`${GoeistSans.className} ${GoeistSans.variable} min-h-screen antialiased`}
         >
           <ReactQueryProvider>
             {children}
