@@ -4,14 +4,38 @@
   "description": "",
   "private": true,
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./room": "./src/room.validation.ts",
-    "./auth": "./src/auth.validation.ts",
-    "./shape": "./src/shape.validation.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./room": {
+      "types": "./dist/room.validation.d.ts",
+      "import": "./dist/room.validation.js",
+      "default": "./dist/room.validation.js"
+    },
+    "./auth": {
+      "types": "./dist/auth.validation.d.ts",
+      "import": "./dist/auth.validation.js",
+      "default": "./dist/auth.validation.js"
+    },
+    "./shape": {
+      "types": "./dist/shape.validation.d.ts",
+      "import": "./dist/shape.validation.js",
+      "default": "./dist/shape.validation.js"
+    }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "check-types": "tsc --noEmit"
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "zod": "^4.5.4"

@@ -9,7 +9,6 @@ import {
   ChunkyAsteriskSticker,
   LoopyArrowSticker,
   ButtonRays,
-  RadarCircles,
 } from './hero-stickers';
 
 export function HeroSection() {
@@ -22,9 +21,6 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden pt-10 pb-20 sm:pt-14 sm:pb-28">
-      {/* Target Radar Rings centered behind the headline */}
-      <RadarCircles className="top-44 sm:top-48" />
-
       {/* STICKERS - Matching reference image with motion/react */}
       {/* 1. Top-Left Orange Flower Blob */}
       <div className="absolute top-10 left-6 select-none sm:top-14 sm:left-14 md:left-24">
