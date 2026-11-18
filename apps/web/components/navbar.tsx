@@ -1,123 +1,59 @@
 'use client';
-import { authClient } from '@/lib/auth-client';
+
+import React from 'react';
 import { Button } from '@repo/ui/components/button';
-import { LogInIcon, LogOutIcon, UserIcon } from 'lucide-react';
-import { Link, useTransitionRouter } from 'next-view-transitions';
-import Image from 'next/image';
-import { toast } from 'sonner';
-import { motion, useMotionValueEvent, useScroll } from 'motion/react';
-import { useState } from 'react';
-import ModeToggle from './mode-toggle';
+import { Link } from 'next-view-transitions';
 
 export function Navbar() {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const router = useTransitionRouter();
-  const { data: session, error } = authClient.useSession();
-  if (error) {
-    toast.error(error.message);
-  }
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, 'change', (value) => {
-    if (value > 20) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  });
-
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:px-6">
-      <motion.div
-        className="pointer-events-auto flex w-full items-center justify-between rounded-xl border border-neutral-200/80 bg-neutral-50/75 px-3 py-2 shadow-control backdrop-blur-md sm:px-4 sm:py-2.5 dark:border-neutral-800 dark:bg-neutral-800/60"
-        animate={{
-          maxWidth: isVisible ? '1028px' : '1280px',
-          borderRadius: isVisible ? '999px' : '16px',
-          backdropFilter: isVisible ? 'blur(16px)' : 'blur(10px)',
-        }}
-        style={{
-          WebkitBackdropFilter: isVisible ? 'blur(16px)' : 'blur(10px)',
-        }}
-        transition={{
-          type: 'spring',
-          stiffness: 400,
-          damping: 50,
-        }}
-      >
-        <div className="flex w-full items-center justify-between gap-x-2">
-          <Link
-            href="/"
-            className="flex shrink-0 items-center transition-opacity hover:opacity-85"
-            aria-label="DoodleJam Home"
-          >
-            <Image
-              src="/doodlejam-lockup-black.svg"
-              alt="DoodleJam"
-              width={112}
-              height={27}
-              priority
-              className="h-6 w-auto shrink-0 sm:h-7 dark:hidden"
-            />
-            <Image
-              src="/doodlejam-lockup-white.svg"
-              alt="DoodleJam"
-              width={112}
-              height={27}
-              priority
-              className="hidden h-6 w-auto shrink-0 sm:h-7 dark:block"
-            />
-          </Link>
+    <header className="bg-background/95 sticky top-0 z-40 w-full border-b-2 border-black px-4 backdrop-blur-xs sm:px-8">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
+        {/* Brand Logo */}
+        <Link href="/" className="group flex items-center gap-2">
+          <span className="text-xl font-black tracking-tight text-neutral-900">DoodleJam</span>
+        </Link>
 
-          <div className="flex shrink-0 items-center gap-x-1.5 sm:gap-x-2">
-            <ModeToggle />
-            {session ? (
-              <>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => router.push('/dashboard')}
-                  className="cursor-pointer bg-white/70 shadow-xs hover:bg-white dark:bg-neutral-900/60 dark:hover:bg-neutral-800"
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  aria-label="Sign Out"
-                  onClick={() => authClient.signOut().then(() => router.push('/'))}
-                  className="cursor-pointer hover:bg-white hover:shadow-control dark:hover:bg-neutral-800"
-                >
-                  <LogOutIcon className="size-3.5" />
-                  <span className="hidden sm:inline">Sign Out</span>
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  aria-label="Sign in"
-                  onClick={() => router.push('/login')}
-                  className="cursor-pointer hover:bg-white hover:shadow-control dark:hover:bg-neutral-800"
-                >
-                  <LogInIcon className="size-3.5" />
-                  <span className="hidden sm:inline">Sign in</span>
-                </Button>
-                <Button
-                  variant="default"
-                  size="sm"
-                  aria-label="Sign Up"
-                  onClick={() => router.push('/signup')}
-                  className="cursor-pointer"
-                >
-                  <UserIcon className="size-3.5" />
-                  <span>Sign Up</span>
-                </Button>
-              </>
-            )}
-          </div>
+        {/* Center Nav Links / Pills */}
+        <nav className="hidden items-center gap-4 text-xs font-bold tracking-wider uppercase md:flex">
+          <Link
+            href="#bento-demos"
+            className="rounded-full border-2 border-black bg-[#FEF08A] px-3.5 py-1 text-black shadow-[2px_2px_0px_0px_#000] transition-all hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+          >
+            Features
+          </Link>
+          <Link
+            href="#bento-demos"
+            className="px-2.5 py-1 text-neutral-800 transition-colors hover:text-black"
+          >
+            How it works
+          </Link>
+          <Link
+            href="/dashboard"
+            className="px-2.5 py-1 text-neutral-800 transition-colors hover:text-black"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/room/new"
+            className="px-2.5 py-1 text-neutral-800 transition-colors hover:text-black"
+          >
+            Rooms
+          </Link>
+        </nav>
+
+        {/* Right CTA Button */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <Link href="/login">
+            <Button
+              variant="neutral"
+              size="sm"
+              className="rounded-full border-2 border-black px-4 text-xs font-black tracking-wider uppercase shadow-[2px_2px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+            >
+              Sign up
+            </Button>
+          </Link>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </header>
   );
 }

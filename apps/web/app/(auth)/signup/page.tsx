@@ -1,264 +1,260 @@
 'use client';
 
-import * as React from 'react';
-import { Eye, EyeOff, Loader2, Layers } from 'lucide-react';
-import { Link, useTransitionRouter } from 'next-view-transitions';
-import { z } from 'zod';
-import { useForm } from '@tanstack/react-form';
-
+import React, { useState } from 'react';
 import { Button } from '@repo/ui/components/button';
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from '@repo/ui/components/card';
 import { Input } from '@repo/ui/components/input';
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from '@repo/ui/components/field';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from '@repo/ui/components/input-group';
+import { Label } from '@repo/ui/components/label';
+import { toast } from '@repo/ui/components/toast';
+import { signUpSchema } from '@repo/validator';
+import { Link, useTransitionRouter } from 'next-view-transitions';
 import { authClient } from '@/lib/auth-client';
-import { toast } from '@/components/ui/sonner';
-import { PatternBorder } from '@/components/pattern-border';
 import { env } from '@/lib/env';
-
-const SignUpFormSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  email: z.email('Email Required'),
-  password: z.string().min(8, 'Password must be at least 8 characters long'),
-});
-
-const fieldSurface =
-  'h-10 rounded-lg bg-background/60 shadow-[inset_0_1px_2px_rgb(0_0_0/0.05)] ' +
-  'transition-[box-shadow,border-color] duration-150 ' +
-  'focus-visible:ring-4 focus-visible:ring-primary/10';
+import { FlowerBlobSticker, ChunkyAsteriskSticker } from '@/components/hero/hero-stickers';
+import { EyeIcon, EyeOffIcon, ArrowLeftIcon, CheckCircle2Icon } from 'lucide-react';
 
 export default function SignUpPage() {
   const router = useTransitionRouter();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const form = useForm({
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
-    validators: {
-      onChange: SignUpFormSchema,
-    },
-    onSubmit: async ({ value }) => {
-      const signUpPromise = (async () => {
-        const res = await authClient.signUp.email({
-          name: value.name,
-          email: value.email,
-          password: value.password,
-          callbackURL: `${env.NEXT_PUBLIC_WEB_URL}/dashboard`,
-        });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string }>({});
+  const [isSuccess, setIsSuccess] = useState(false);
 
-        if (res.error) {
-          throw new Error(res.error.message || 'Failed to create account.');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+
+    // Client-side Zod validation
+    const result = signUpSchema.safeParse({ name, email, password });
+    if (!result.success) {
+      const fieldErrors: { name?: string; email?: string; password?: string } = {};
+      result.error.issues.forEach((err) => {
+        const field = err.path[0] as 'name' | 'email' | 'password';
+        if (field && !fieldErrors[field]) {
+          fieldErrors[field] = err.message;
         }
+      });
+      setErrors(fieldErrors);
+      return;
+    }
 
-        return res.data;
-      })();
+    setIsSubmitting(true);
 
-      toast.promise(signUpPromise, {
-        loading: 'Creating account…',
-        success: () => {
-          router.replace('/login');
-          return 'Please check your mail box and verify';
-        },
-        error: (err: any) => err?.message || 'Could not create account.',
+    try {
+      const res = await authClient.signUp.email({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+        callbackURL: `${env.NEXT_PUBLIC_WEB_URL}/dashboard`,
       });
 
-      await signUpPromise.catch(() => {});
-    },
-  });
+      if (res.error) {
+        toast.add({
+          type: 'error',
+          title: 'Sign up failed',
+          description: res.error.message || 'Could not create account.',
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      setIsSuccess(true);
+      toast.add({
+        type: 'success',
+        title: 'Account created!',
+        description: 'Please check your email to verify your account.',
+      });
+    } catch (err: any) {
+      toast.add({
+        type: 'error',
+        title: 'Error',
+        description: err?.message || 'An unexpected error occurred.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="bg-background relative isolate flex min-h-screen w-full items-center justify-center overflow-hidden p-4">
-      {/* Backdrop: faded grid + one soft glow behind the card */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div
-          className={
-            'absolute inset-0 opacity-[0.35] ' +
-            'bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] ' +
-            'bg-size-[44px_44px] ' +
-            'mask-[radial-gradient(ellipse_55%_50%_at_50%_45%,#000_20%,transparent_100%)]'
-          }
-        />
-        <div className="bg-primary/15 absolute top-[8%] left-1/2 h-90 w-160 -translate-x-1/2 rounded-full blur-[110px]" />
+    <div className="bg-background relative flex min-h-screen w-full items-center justify-center overflow-hidden p-4 sm:p-6">
+      {/* Decorative Stickers in background */}
+      <div className="pointer-events-none absolute -top-8 -left-6 select-none sm:top-8 sm:left-12">
+        <FlowerBlobSticker color="#FF8A00" size={88} className="rotate-[-8deg]" />
       </div>
 
-      <PatternBorder className="w-full max-w-sm rounded-2xl sm:max-w-md">
-        <Card className={'bg-card relative w-full gap-6 rounded-xl py-8'}>
-          <CardHeader className="flex flex-col items-center justify-center gap-1.5 px-8 text-center">
-            <div className="from-primary to-primary/80 text-primary-foreground shadow-primary/25 ring-primary/40 mx-auto mb-3 flex size-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-b shadow-lg ring-1 inset-shadow-xs inset-shadow-white/25">
-              <Layers className="size-5" />
+      <div className="pointer-events-none absolute -right-8 -bottom-10 select-none sm:right-12 sm:bottom-8">
+        <ChunkyAsteriskSticker color="#0099FF" size={96} className="rotate-[16deg]" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-md">
+        {/* Top Back Link */}
+        <div className="mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-black tracking-wider text-neutral-700 uppercase transition-colors hover:text-black"
+          >
+            <ArrowLeftIcon className="size-4" />
+            <span>Back to DoodleJam</span>
+          </Link>
+        </div>
+
+        {/* Card Container */}
+        <Card className="rounded-2xl border-3 border-black bg-white p-6 shadow-[6px_6px_0px_0px_#000] sm:p-8">
+          {isSuccess ? (
+            /* Success State */
+            <div className="flex flex-col items-center py-4 text-center">
+              <div className="mb-4 flex size-14 items-center justify-center rounded-full border-2 border-black bg-[#DCFCE7] shadow-[2.5px_2.5px_0px_0px_#000]">
+                <CheckCircle2Icon className="size-8 text-[#16A34A]" />
+              </div>
+              <h2 className="text-2xl font-black tracking-tight text-neutral-900">
+                Check your inbox!
+              </h2>
+              <p className="mt-2 text-sm font-medium text-neutral-700">
+                We sent a confirmation link to <strong className="text-black">{email}</strong>.
+                Click it to verify your account and start sketching.
+              </p>
+              <div className="mt-6 w-full">
+                <Link href="/login" className="w-full">
+                  <Button className="h-11 w-full border-2 border-black font-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none">
+                    Go to Log in →
+                  </Button>
+                </Link>
+              </div>
             </div>
-            <CardTitle className="text-2xl font-semibold tracking-tight">
-              Create your account
-            </CardTitle>
-            <CardDescription className="text-balance">
-              Enter your details below to get started
-            </CardDescription>
-          </CardHeader>
+          ) : (
+            /* Sign Up Form */
+            <>
+              <CardHeader className="p-0 text-center">
+                <div className="bg-main mx-auto mb-3 flex size-11 items-center justify-center rounded-xl border-2 border-black text-xl font-black shadow-[3px_3px_0px_0px_#000]">
+                  ✏️
+                </div>
+                <CardTitle className="text-2xl font-black tracking-tight text-neutral-900 sm:text-3xl">
+                  Create an account
+                </CardTitle>
+                <CardDescription className="mt-1 text-sm font-medium text-neutral-600">
+                  Start collaborating on real-time canvases in seconds.
+                </CardDescription>
+              </CardHeader>
 
-          <CardContent className="px-8">
-            <form
-              id="signup-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                form.handleSubmit();
-              }}
-            >
-              <FieldGroup className="gap-5">
-                <form.Field
-                  name="name"
-                  children={(field) => {
-                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor={field.name} className="font-medium">
-                          Full name
-                        </FieldLabel>
-                        <Input
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          aria-invalid={isInvalid}
-                          placeholder="John Doe"
-                          autoComplete="name"
-                          className={fieldSurface}
-                        />
-                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                      </Field>
-                    );
-                  }}
-                />
+              <CardContent className="mt-6 p-0">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  {/* Name field */}
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="name"
+                      className="text-xs font-black tracking-wider text-neutral-800 uppercase"
+                    >
+                      Full Name
+                    </Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      placeholder="Maya Lin"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="h-11 rounded-lg border-2 border-black bg-neutral-50 px-3.5 font-medium shadow-[2px_2px_0px_0px_#000] focus-visible:ring-black"
+                    />
+                    {errors.name && (
+                      <span className="text-xs font-bold text-red-600">{errors.name}</span>
+                    )}
+                  </div>
 
-                <form.Field
-                  name="email"
-                  children={(field) => {
-                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor={field.name} className="font-medium">
-                          Email address
-                        </FieldLabel>
-                        <Input
-                          id={field.name}
-                          name={field.name}
-                          type="email"
-                          value={field.state.value}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          aria-invalid={isInvalid}
-                          placeholder="name@example.com"
-                          autoComplete="email"
-                          className={fieldSurface}
-                        />
-                        {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                      </Field>
-                    );
-                  }}
-                />
+                  {/* Email field */}
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="email"
+                      className="text-xs font-black tracking-wider text-neutral-800 uppercase"
+                    >
+                      Email address
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      placeholder="maya@company.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="h-11 rounded-lg border-2 border-black bg-neutral-50 px-3.5 font-medium shadow-[2px_2px_0px_0px_#000] focus-visible:ring-black"
+                    />
+                    {errors.email && (
+                      <span className="text-xs font-bold text-red-600">{errors.email}</span>
+                    )}
+                  </div>
 
-                <form.Field
-                  name="password"
-                  children={(field) => {
-                    const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor={field.name} className="font-medium">
-                          Password
-                        </FieldLabel>
-                        <InputGroup className={fieldSurface}>
-                          <InputGroupInput
-                            id={field.name}
-                            name={field.name}
-                            type={showPassword ? 'text' : 'password'}
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                            placeholder="••••••••"
-                            autoComplete="new-password"
-                            aria-invalid={isInvalid}
-                          />
-                          <InputGroupAddon align="inline-end">
-                            <InputGroupButton
-                              type="button"
-                              size="icon-xs"
-                              onClick={() => setShowPassword((prev) => !prev)}
-                              aria-label={showPassword ? 'Hide password' : 'Show password'}
-                              className="text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              {showPassword ? (
-                                <EyeOff className="size-3.5" />
-                              ) : (
-                                <Eye className="size-3.5" />
-                              )}
-                            </InputGroupButton>
-                          </InputGroupAddon>
-                        </InputGroup>
-                        {isInvalid ? (
-                          <FieldError errors={field.state.meta.errors} />
+                  {/* Password field */}
+                  <div className="flex flex-col gap-1.5">
+                    <Label
+                      htmlFor="password"
+                      className="text-xs font-black tracking-wider text-neutral-800 uppercase"
+                    >
+                      Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        autoComplete="new-password"
+                        required
+                        placeholder="At least 8 characters"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="h-11 rounded-lg border-2 border-black bg-neutral-50 pr-10 pl-3.5 font-medium shadow-[2px_2px_0px_0px_#000] focus-visible:ring-black"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute top-1/2 right-3 -translate-y-1/2 text-neutral-600 hover:text-black"
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      >
+                        {showPassword ? (
+                          <EyeOffIcon className="size-4" />
                         ) : (
-                          <FieldDescription>Must be at least 8 characters long.</FieldDescription>
+                          <EyeIcon className="size-4" />
                         )}
-                      </Field>
-                    );
-                  }}
-                />
-              </FieldGroup>
-            </form>
-          </CardContent>
+                      </button>
+                    </div>
+                    {errors.password && (
+                      <span className="text-xs font-bold text-red-600">{errors.password}</span>
+                    )}
+                  </div>
 
-          <CardFooter className="flex flex-col gap-4 px-8">
-            <form.Subscribe selector={(state) => state.isSubmitting}>
-              {(isSubmitting) => (
-                <Button
-                  type="submit"
-                  form="signup-form"
-                  disabled={isSubmitting}
-                  className={
-                    'from-primary to-primary/85 h-10 w-full rounded-lg bg-linear-to-b font-medium ' +
-                    'ring-primary/50 shadow-primary/25 shadow-lg ring-1 inset-shadow-xs inset-shadow-white/20 ' +
-                    'hover:shadow-primary/35 transition-all duration-150 hover:brightness-110 ' +
-                    'active:translate-y-px active:brightness-95 disabled:opacity-70'
-                  }
-                >
-                  {isSubmitting && <Loader2 className="mr-1.5 size-3.5 animate-spin" />}
-                  {isSubmitting ? 'Creating account…' : 'Create account'}
-                </Button>
-              )}
-            </form.Subscribe>
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-main mt-2 h-11 w-full cursor-pointer rounded-lg border-2 border-black text-sm font-black text-black shadow-[3px_3px_0px_0px_#000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none disabled:opacity-60"
+                  >
+                    {isSubmitting ? 'Creating account...' : 'Create account →'}
+                  </Button>
+                </form>
 
-            <p className="text-muted-foreground text-center text-sm">
-              Already have an account?{' '}
-              <Link
-                href="/login"
-                className="text-foreground hover:text-primary font-medium underline-offset-4 transition-colors hover:underline"
-              >
-                Sign in
-              </Link>
-            </p>
-          </CardFooter>
+                {/* Footer link to Login */}
+                <div className="mt-6 text-center text-xs font-bold text-neutral-700">
+                  Already have an account?{' '}
+                  <Link
+                    href="/login"
+                    className="text-black underline underline-offset-2 hover:text-neutral-600"
+                  >
+                    Log in
+                  </Link>
+                </div>
+              </CardContent>
+            </>
+          )}
         </Card>
-      </PatternBorder>
+      </div>
     </div>
   );
 }

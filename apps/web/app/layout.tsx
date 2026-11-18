@@ -2,10 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 import './globals.css';
 import { ViewTransitions } from 'next-view-transitions';
-import { Toaster } from '@/components/ui/sonner';
 import ReactQueryProvider from '@/utils/query/query-provider';
-import { cn } from '@/lib/utils';
-import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@repo/ui/components/toast';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -31,21 +29,14 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <html lang="en" data-scroll-behavior="smooth">
         <body
           className={`${inter.className} ${geistMono.variable} ${inter.variable} min-h-screen antialiased`}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ReactQueryProvider>
-              {children}
-              <Toaster position="bottom-right" />
-            </ReactQueryProvider>
-          </ThemeProvider>
+          <ReactQueryProvider>
+            {children}
+            <Toaster />
+          </ReactQueryProvider>
         </body>
       </html>
     </ViewTransitions>

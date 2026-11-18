@@ -14,8 +14,6 @@ import { configs } from './configs/configs.js';
 
 const app: Express = express();
 
-app.all('/api/auth/*splat', toNodeHandler(auth));
-
 app.use(
   cors({
     origin: [configs.FRONTEND_URL],
@@ -25,6 +23,7 @@ app.use(
     exposedHeaders: ['Set-Cookie'],
   }),
 );
+app.all('/api/auth/*splat', toNodeHandler(auth));
 app.use(helmet());
 app.use(limiter);
 app.use(httpLogger);

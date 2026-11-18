@@ -1,0 +1,1 @@
+ALTER TABLE "shapes" ADD COLUMN "z_index" integer DEFAULT 0 NOT NULL;

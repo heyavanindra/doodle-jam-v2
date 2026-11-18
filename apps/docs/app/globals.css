@@ -2,8 +2,6 @@
 @import "@repo/tailwind-config";
 @source "../../../packages/ui";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 html {
   background-color: var(--background);
   color: var(--foreground);

@@ -2,12 +2,14 @@ import { defineRelations } from 'drizzle-orm';
 
 import { user } from './auth-schema.js';
 import { room, roomMember } from './room.js';
+import { shapes } from './shapes.js';
 
 export const relations = defineRelations(
   {
     user,
     room,
     roomMember,
+    shapes,
   },
   (r) => ({
     user: {
@@ -32,6 +34,11 @@ export const relations = defineRelations(
         from: r.room.id,
         to: r.roomMember.roomId,
       }),
+
+      shapes: r.many.shapes({
+        from: r.room.id,
+        to: r.shapes.roomId,
+      }),
     },
 
     roomMember: {
@@ -42,6 +49,13 @@ export const relations = defineRelations(
 
       room: r.one.room({
         from: r.roomMember.roomId,
+        to: r.room.id,
+      }),
+    },
+
+    shapes: {
+      room: r.one.room({
+        from: r.shapes.roomId,
         to: r.room.id,
       }),
     },

@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
+  "type": "module",
   "exports": {
     ".": "./src/index.ts",
     "./room": "./src/room.validation.ts",
-    "./auth": "./src/auth.validation.ts"
+    "./auth": "./src/auth.validation.ts",
+    "./shape": "./src/shape.validation.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit"

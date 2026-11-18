@@ -21,26 +21,6 @@
   );
 }
 
-.dark {
-  --shadow-control:
-    inset 0 0 0 0.5px rgba(247, 247, 248, 0.15),
-    0 0 0 0.5px rgba(19, 19, 22, 0.8),
-    0 2px 3px 0 rgba(0, 0, 0, 0.16),
-    0 4px 6px 0 rgba(34, 42, 53, 0.16),
-    0 1px 1px 0 rgba(0, 0, 0, 0.16);
-
-  --shadow-tray:
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.16),
-    0 0 0 0.5px rgba(19, 19, 22, 0.8),
-    0 1px 2px 0 rgba(0, 0, 0, 0.22);
-
-  --pattern-fg: color-mix(
-    in oklab,
-    var(--color-neutral-50) 10%,
-    transparent
-  );
-}
-
 @theme {
   --shadow-control: var(--shadow-control);
   --shadow-tray: var(--shadow-tray);
